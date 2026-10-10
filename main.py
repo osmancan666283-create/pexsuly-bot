@@ -527,8 +527,8 @@ def buy_title_callback(call):
         user["active_title"] = info["name"]
         bot.answer_callback_query(call.id, f"{info['name']} unvanı tanımlandı!", show_alert=True)
         bot.send_message(call.message.chat.id, f"👑 **Tebrikler Kral!** Hesabına **{info['name']}** unvanı eklendi.", parse_mode="Markdown")
-      else:
-          bot.send_invoice(
+    else:
+        bot.send_invoice(
             chat_id=call.message.chat.id,
             title=f"Unvan: {info['name']}",
             description=info['desc'],
@@ -693,7 +693,8 @@ def auto_random_vip_scheduler():
                 bot.send_message(uid, f"🎁 **SÜRPRİZ VIP!** Bot sana {days} Günlük Özel VIP hediye etti!", parse_mode="Markdown")
             except Exception:
                 pass
-              threading.Thread(target=auto_random_vip_scheduler, daemon=True).start()
+
+threading.Thread(target=auto_random_vip_scheduler, daemon=True).start()
 
 @bot.callback_query_handler(func=lambda call: call.data in ['tool_repeat_text', 'tool_styled_text'])
 def prompt_line_tool(call):
@@ -755,7 +756,7 @@ def execute_spin(call):
                 bot.answer_callback_query(call.id, "❌ Ücretsiz hakkın kalmadı!", show_alert=True)
                 return
             user["wheel_spins"] -= 1
-    else:
+else:
         if user["pexsuly"] < 20:
             bot.answer_callback_query(call.id, "❌ 20 Pexsuly lazım!", show_alert=True)
             return
@@ -816,8 +817,8 @@ def lang_menu_handler(call):
     bot.answer_callback_query(call.id)
     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id, text="🌍 **Dil Seçin:**", reply_markup=markup, parse_mode="Markdown")
 
-@bot.callback_query_handler(func=lambda call: call.data.startswith
-                            def set_language(call):
+@bot.callback_query_handler(func=lambda call: call.data.startswith('setlang_'))
+def set_language(call):
     user = get_user(call.from_user.id)
     user["lang"] = call.data.split('_')[1]
     bot.answer_callback_query(call.id, "Dil güncellendi!")
@@ -897,8 +898,8 @@ def successful_payment(message):
             rw = random.randint(10, 64)
             user["vip_days"] += rw
             bot.send_message(message.chat.id, f"🎉 Çarktan {rw} Günlük VIP çıktı!", parse_mode="Markdown")
-else:
-rw = random.randint(60, 900)
+        else:
+            rw = random.randint(60, 900)
             user["pexsuly"] += rw
             bot.send_message(message.chat.id, f"🎉 Çarktan {rw} PEXSULY çıktı!", parse_mode="Markdown")
 
@@ -972,8 +973,7 @@ def process_media_download(message, platform, cost):
         'outtmpl': f"downloads/{message.from_user.id}_%(id)s.%(ext)s",
         'format': 'best',
         'nopart': True,
-        'max_filesize': 50 * 1024 * 1024,
-        'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+        'max_filesize': 50 * 1024 * 1024,  'user_agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
     }
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
