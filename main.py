@@ -527,7 +527,8 @@ def buy_title_callback(call):
         user["active_title"] = info["name"]
         bot.answer_callback_query(call.id, f"{info['name']} unvanı tanımlandı!", show_alert=True)
         bot.send_message(call.message.chat.id, f"👑 **Tebrikler Kral!** Hesabına **{info['name']}** unvanı eklendi.", parse_mode="Markdown")
-      else:bot.send_invoice(
+      else:
+          bot.send_invoice(
             chat_id=call.message.chat.id,
             title=f"Unvan: {info['name']}",
             description=info['desc'],
